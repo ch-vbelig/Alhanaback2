@@ -1,0 +1,19 @@
+version: '2'
+services:
+    django:
+        build: ./project
+        command: sh -c "gunicorn --bind 0.0.0.0:8000 app.wsgi"
+        volumes:
+            - ./project:/project
+            - static_data:/project/static
+        expose:
+            - 8000
+        :
+            - db
+
+    db:
+        image: "postgres:9.6"
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_PASSWORD: hunter2
